@@ -1,55 +1,46 @@
-const btnCreatePromises = document.querySelector("button");
-const delayInput = document.querySelector('input[name="delay"]');
-const delayStepInput = document.querySelector('input[name="step"]');
-const amountInput = document.querySelector('input[name="amount"]');
+const form = document.querySelector(".form");
+// const delayInput = document.querySelector('input[name="delay"]');
+// const delayStepInput = document.querySelector('input[name="step"]');
+// const amountInput = document.querySelector('input[name="amount"]');
 
-btnCreatePromises.addEventListener('click', createPromise);
+form.addEventListener('submit', onSubmit);
 
+function onSubmit(evt) {
+  evt.preventDefault();
+
+  const { amount, delay, step } = evt.currentTarget.elements;
+
+  for (let i = 0; i < Number(amount.value); i += 1) {
+
+    const position = i + 1;
+    const currentDelay = Number(delay.value) + i * Number(step.value);
+                      
+    createPromise(position, currentDelay)
+      .then(({ position, delay }) => {
+    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      })
+      .catch(({ position, delay }) => {
+    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+  });;
+  };
+  // form.reset();
+
+}
+  
 function createPromise(position, delay) {
-
   return new Promise((resolve, reject) => {
-
-    const shouldResolve = Math.random() > 0.3;
-
+  
     setTimeout(() => {
+        
+        const shouldResolve = Math.random() > 0.3;
+
+        if (shouldResolve) {
+          resolve({position, delay});
+        } else {
+          reject({position, delay});
+        }
+    }, delay);
     
-    if (shouldResolve) {
-      resolve(`✅ Fulfilled promise ${position} in ${delay}ms`);
-    } else {
-      reject(`❌ Rejected promise ${position} in ${delay}ms`);
-    }
-  }, delay);
-  });
-  
-};
+    });
 
-
-const delay = delayInput.value;
-const step = Number(delayStepInput.value);
-const amount = Number(amountInput.value);
-console.log(delay);
-  
-  for (let i = 0; i < amount; i += 1) {
-    const  currentPosition = i + 1;
-    const currentDelay = delay + (i - 1) * step;
-                    
-    createPromise(currentPosition, currentDelay).then(result => {
-    console.log(result);
-  })
-  .catch(result => {
-    console.log(result);
-  })
-  }
-
-
-   
-
-
-// createPromise(position, currentDelay)
-//   .then(result => {
-//     console.log(`✅ Fulfilled promise ${result.position} in ${result.currentDelay}ms`);
-//   })
-//   .catch(result => {
-//     console.log(`❌ Rejected promise ${result.position} in ${result.currentDelay}ms`);
-//   });
-
+}

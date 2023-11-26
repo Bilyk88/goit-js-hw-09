@@ -1,41 +1,64 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const inputRef = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('button[data-start]');
+const days = document.querySelector('span[data-days]');
+const hours = document.querySelector('span[data-hours]');
+const minutes = document.querySelector('span[data-minutes]');
+const seconds = document.querySelector('span[data-seconds]');
 
-const currentDate = new Date();
+let currentDate = new Date();
 let targetDate;
-
-startBtn.addEventListener('click', onClickStart);
-
-function onClickStart() {
-
-    const time = targetDate - currentDate;
-    convertMs(time);
-}
-
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-    onClose(selectedDates) {
+  onClose(selectedDates) {
       
-        console.log(selectedDates[0]);
+    console.log(selectedDates[0]);
 
-      targetDate = selectedDates[0];
-      if (selectedDates[0] < currentDate) {
-          alert("Please choose a date in the future.");
-      } else {
-          startBtn.removeAttribute("disabled");
-      }
-      
-      
+    targetDate = selectedDates[0];
+    if (selectedDates[0] < currentDate) {
+      Notify.failure("Please choose a date in the future");
+    } else {
+      startBtn.removeAttribute("disabled");
+    }
   },
 };
 
+startBtn.addEventListener('click', onClickStart);
+
 flatpickr(inputRef, options);
+
+function onClickStart() {
+
+  const id = setInterval(() => {
+
+    currentDate = new Date();
+    const time = targetDate - currentDate;
+    const convertTime = (convertMs(time));
+      
+    days.textContent =  convertTime.days;
+    hours.textContent = convertTime.hours;
+    minutes.textContent =convertTime.minutes;
+    seconds.textContent = addLeadingZero(convertTime.seconds);
+
+    if (!time) {
+      clearInterval(id);
+    }
+
+  }, 1000);
+  
+    
+}
+
+function addLeadingZero(value) {
+  value.toString().padStart(2, '0');
+
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time

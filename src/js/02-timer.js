@@ -29,9 +29,9 @@ const options = {
   },
 };
 
-startBtn.addEventListener('click', onClickStart);
-
 flatpickr(inputRef, options);
+
+startBtn.addEventListener('click', onClickStart);
 
 function onClickStart() {
 
@@ -56,6 +56,7 @@ function onClickStart() {
 }
 
 function addLeadingZero(value) {
+
   return value.toString().padStart(2, '0');
 
 }

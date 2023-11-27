@@ -39,11 +39,11 @@ function onClickStart() {
 
     currentDate = new Date();
     const time = targetDate - currentDate;
-    const convertTime = (convertMs(time));
+    const convertTime = convertMs(time);
       
-    days.textContent =  convertTime.days;
-    hours.textContent = convertTime.hours;
-    minutes.textContent =convertTime.minutes;
+    days.textContent =  addLeadingZero(convertTime.days);
+    hours.textContent = addLeadingZero(convertTime.hours);
+    minutes.textContent = addLeadingZero(convertTime.minutes);
     seconds.textContent = addLeadingZero(convertTime.seconds);
 
     if (!time) {
@@ -56,7 +56,7 @@ function onClickStart() {
 }
 
 function addLeadingZero(value) {
-  value.toString().padStart(2, '0');
+  return value.toString().padStart(2, '0');
 
 }
 

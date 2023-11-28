@@ -48,6 +48,7 @@ function onClickStart() {
 
     if (time <= 0) {
       clearInterval(id);
+      startBtn.setAttribute("disabled", "disabled");
       days.textContent = addLeadingZero(0);
       hours.textContent = addLeadingZero(0);
       minutes.textContent = addLeadingZero(0);

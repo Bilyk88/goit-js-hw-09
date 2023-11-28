@@ -46,9 +46,15 @@ function onClickStart() {
     minutes.textContent = addLeadingZero(convertTime.minutes);
     seconds.textContent = addLeadingZero(convertTime.seconds);
 
-    if (!time) {
+    if (time <= 0) {
       clearInterval(id);
+      days.textContent = addLeadingZero(0);
+      hours.textContent = addLeadingZero(0);
+      minutes.textContent = addLeadingZero(0);
+      seconds.textContent = addLeadingZero(0);
+
     }
+
 
   }, 1000);
   

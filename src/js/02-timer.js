@@ -52,7 +52,7 @@ function onClickStart() {
       hours.textContent = addLeadingZero(0);
       minutes.textContent = addLeadingZero(0);
       seconds.textContent = addLeadingZero(0);
-
+      return;
     }
 
 
